@@ -1,0 +1,10 @@
+spring.application.name=order-service
+
+server.port=8888
+
+eureka.client.healthcheck.enabled=true
+
+server.ribbon.eureka.enabled=true
+
+# Mongo datbase props. 
+spring.data.mongodb.uri=mongodb+srv://Aneetta:Aneetta@ite5315-aneetta.3kqge.mongodb.net/Enterprise_Project?retryWrites=true&w=majority&appName=ITE5315-ANEETTA
