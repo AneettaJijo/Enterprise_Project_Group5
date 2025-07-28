@@ -1,0 +1,22 @@
+package com.marketservice;
+
+import com.marketservice.MarketService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.orderservice.Order;
+
+@RestController
+@RequestMapping("/market")
+public class MarketController {
+    @Autowired
+    private MarketService marketService;
+
+    @PostMapping("/placeStockOrder/{orderId}")
+    public String placeStockOrder(@PathVariable String orderId, @RequestBody Order order) {
+        return marketService.placeStockOrder(orderId, order.getStockSymbol(), order.getQuantity());
+    }
+}

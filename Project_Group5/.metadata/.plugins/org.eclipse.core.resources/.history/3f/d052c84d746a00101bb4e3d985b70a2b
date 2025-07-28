@@ -1,0 +1,33 @@
+package com.transactionservice;
+
+import com.transactionservice.Account;
+import com.transactionservice.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Service
+public class AccountTransactionService {
+    private static final Logger logger = LoggerFactory.getLogger(AccountTransactionService.class);
+
+    @Autowired
+    private AccountRepository userRepository;
+
+    public void updateBalance(String username, double amount) {
+        logger.debug("Updating balance for username: {}, amount: {}", username, amount);
+        Account user = userRepository.findByUsername(username)
+            .orElseThrow(() -> {
+                logger.error("User not found: {}", username);
+                return new RuntimeException("User not found: " + username);
+            });
+        double newBalance = user.getBalance() + amount;
+        if (newBalance < 0) {
+            logger.error("Insufficient balance for username: {}, current: {}, requested: {}", username, user.getBalance(), amount);
+            throw new RuntimeException("Insufficient balance");
+        }
+        user.setBalance(newBalance);
+        userRepository.save(user);
+        logger.info("Balance updated successfully for username: {}, new balance: {}", username, newBalance);
+    }
+}

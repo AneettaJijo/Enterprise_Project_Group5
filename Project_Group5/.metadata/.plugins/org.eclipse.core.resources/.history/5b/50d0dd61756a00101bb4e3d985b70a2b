@@ -1,0 +1,18 @@
+package com.marketservice;
+
+import com.marketservice.Market;
+import com.marketservice.MarketRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class MarketService {
+    @Autowired
+    private MarketRepository marketRepository;
+
+    public String placeStockOrder(String orderId, String stockSymbol, int quantity) {
+        Market market = new Market(orderId, stockSymbol, quantity, "PLACED");
+        marketRepository.save(market);
+        return "Stock order placed in market with ID: " + market.getId();
+    }
+}

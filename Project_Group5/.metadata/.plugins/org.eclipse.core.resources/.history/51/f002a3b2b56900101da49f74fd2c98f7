@@ -1,0 +1,5 @@
+package com.transactionservice;
+
+public class User {
+
+}

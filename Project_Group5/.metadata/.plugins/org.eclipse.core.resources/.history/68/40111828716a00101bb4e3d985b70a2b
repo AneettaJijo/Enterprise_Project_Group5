@@ -1,0 +1,18 @@
+package com.transactionservice;
+
+import com.transactionservice.User;
+import com.transactionservice.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AccountTransactionService {
+    @Autowired
+    private UserRepository userRepository;
+
+    public User updateBalance(String userId, double amount) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setBalance(user.getBalance() + amount);
+        return userRepository.save(user);
+    }
+}

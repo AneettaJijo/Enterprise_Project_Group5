@@ -1,0 +1,44 @@
+package com.orderservice;
+
+
+import com.orderservice.Order;
+import com.orderservice.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Controller
+public class OrderController {
+    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
+
+    @Autowired
+    private OrderService orderService;
+
+    @GetMapping("/order")
+    public String showOrderForm(Model model) {
+        logger.info("Displaying order form");
+        model.addAttribute("order", new Order());
+        return "placeOrder";
+    }
+
+    @PostMapping("/order")
+    public String placeOrder(@ModelAttribute Order order, Model model) {
+        logger.info("Processing order submission: {}", order);
+        try {
+            Order savedOrder = orderService.placeOrder(order);
+            model.addAttribute("message", "Order placed successfully with ID: " + savedOrder.getId());
+            model.addAttribute("order", new Order()); // Reset form
+            logger.info("Order placed successfully with ID: {}", savedOrder.getId());
+        } catch (Exception e) {
+            logger.error("Error placing order: {}", e.getMessage());
+            model.addAttribute("message", "Failed to place order: " + e.getMessage());
+            model.addAttribute("order", order); // Preserve form data
+        }
+        return "placeOrder";
+    }
+}

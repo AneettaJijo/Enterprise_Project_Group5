@@ -1,0 +1,16 @@
+spring.application.name=account-transaction-service
+server.port=8083
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka/
+
+eureka.instance.lease-renewal-interval-in-seconds=30
+eureka.instance.lease-expiration-duration-in-seconds=90
+
+eureka.instance.status-page-url-path=/actuator/info
+eureka.instance.health-check-url-path=/actuator/health
+management.endpoints.web.exposure.include=health,info
+management.info.env.enabled=true
+info.app.name=Account Transaction Service
+info.app.description=Account Transaction Service for balance management
+info.app.version=1.0.0
+
+spring.data.mongodb.uri=

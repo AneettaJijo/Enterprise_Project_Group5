@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Place Order</title>
+</head>
+<body>
+    <h2>Place Stock Order</h2>
+    <div th:if="${message}" th:text="${message}"></div>
+    <form th:action="@{/order}" th:object="${order}" method="post">
+        <label>User ID:</label>
+        <input type="text" th:field="*{userId}" /><br/>
+        <label>Stock Symbol:</label>
+        <input type="text" th:field="*{stockSymbol}" /><br/>
+        <label>Quantity:</label>
+        <input type="number" th:field="*{quantity}" /><br/>
+        <label>Price:</label>
+        <input type="number" step="0.01" th:field="*{price}" /><br/>
+        <button type="submit">Place Order</button>
+    </form>
+</body>
+</html>
